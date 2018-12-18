@@ -1,1 +1,1 @@
-# logic-puzzle-solver
+# logic-puzzle-solver (aka an excuse to learn Ruby)
