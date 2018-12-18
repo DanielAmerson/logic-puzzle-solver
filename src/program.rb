@@ -1,6 +1,13 @@
 require_relative 'fact'
 require_relative 'attribute_repository'
 
+debug = false
+if ARGV.length > 0
+    debug = (ARGV[0].casecmp "debug") == 0
+end
+
+ARGV.clear # clear the command line args so that calls to gets aren't impacted
+
 $repository = AttributeRepository.new()
 
 # TODO error checking
@@ -29,7 +36,10 @@ loop do
 
     generated_fact = parse_input_as_fact(gets.chomp)
     puts generated_fact
-    puts $repository
+
+    if debug
+        puts $repository
+    end
 
     print "All facts entered (y/n)? "
     break if (gets.chomp[0].casecmp "y") == 0
