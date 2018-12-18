@@ -1,4 +1,7 @@
 require_relative 'fact'
+require_relative 'attribute_repository'
+
+$repository = AttributeRepository.new()
 
 # TODO error checking
 def parse_input_as_fact(input)
@@ -6,6 +9,10 @@ def parse_input_as_fact(input)
     components = input.split(if are_related then '>' else '/' end)
     predicates_for_component_1 = components[0].split(':')
     predicates_for_component_2 = components[1].split(':')
+
+    $repository.add(predicates_for_component_1[0], predicates_for_component_1[1])
+    $repository.add(predicates_for_component_2[0], predicates_for_component_2[1])
+
     Fact.new(are_related, predicates_for_component_1[0], predicates_for_component_1[1], predicates_for_component_2[0], predicates_for_component_2[1])
 end
 
@@ -22,6 +29,7 @@ loop do
 
     generated_fact = parse_input_as_fact(gets.chomp)
     puts generated_fact
+    puts $repository
 
     print "All facts entered (y/n)? "
     break if (gets.chomp[0].casecmp "y") == 0
