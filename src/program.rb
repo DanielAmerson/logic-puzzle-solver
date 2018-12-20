@@ -1,5 +1,6 @@
 require_relative 'fact'
 require_relative 'attribute_repository'
+require_relative 'state'
 
 debug = false
 if ARGV.length > 0
@@ -21,14 +22,19 @@ def parse_input_as_fact(input, attribute_repository)
     Fact.new(are_related, predicates_for_component_1[0], predicates_for_component_1[1], predicates_for_component_2[0], predicates_for_component_2[1])
 end
 
+# TODO move repository to state class so that values can be properly configured when generated
 repository = AttributeRepository.new()
 
-# Data isn't used to generate boards, but rather used to determine when inferences can be made 
 print "Enter the number of attribute types: "
 num_attributes = gets.chomp.to_i
 
 print "Enter the number of values per attribute: "
 num_values = gets.chomp.to_i
+
+state = State.new(num_attributes, num_values)
+if debug
+    puts state.render_state()
+end
 
 all_facts_entered = false
 loop do
