@@ -10,9 +10,9 @@ class State
         end
 
         #board is represented by each permutation of attributes so lookups will need to check both levels of nesting
-        for counter_1 in 0..number_of_attributes
+        for counter_1 in 1..(number_of_attributes - 1)
             @board[attributes[counter_1]] = Hash.new
-            for counter_2 in counter_1..number_of_attributes
+            for counter_2 in (counter_1 + 1)..number_of_attributes
                 @board[attributes[counter_1]][attributes[counter_2]] = Relationship.new(number_of_values)
             end
         end
