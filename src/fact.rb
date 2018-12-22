@@ -1,4 +1,6 @@
 class Fact    
+    attr_reader :attributes_related, :first_attribute, :first_value, :second_attribute, :second_value
+
     def initialize(attributes_related, first_attribute, first_value, second_attribute, second_value)
         @attributes_related = attributes_related
         @first_attribute = first_attribute

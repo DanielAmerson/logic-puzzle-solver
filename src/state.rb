@@ -2,7 +2,8 @@ require_relative 'relationship'
 
 class State
     def initialize(number_of_attributes, number_of_values)
-        @board = Hash.new
+        @board = Hash.new()
+        @repository = Hash.new()
 
         attributes = Array.new(number_of_attributes)
         for counter in 0..number_of_attributes
@@ -20,6 +21,28 @@ class State
 
     def render_state()
         @board
+    end
+
+    def apply_fact(fact_to_apply)
+        add_attribute_to_repository(fact_to_apply.first_attribute, fact_to_apply.first_value)
+        add_attribute_to_repository(fact_to_apply.second_attribute, fact_to_apply.second_value)
+
+        # TODO update relationship state with new data
+        # TODO infer new facts
+    end
+
+    def add_attribute_to_repository(attribute, value)
+        if @repository[attribute].nil?
+            @repository[attribute] = []
+
+            # TODO new attribute - add to board
+        end
+
+        if @repository[attribute].index(value).nil?
+            @repository[attribute].push(value)
+
+            # TODO new attribute - add to relationship
+        end
     end
 end
 
