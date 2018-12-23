@@ -35,7 +35,29 @@ class State
         if @repository[attribute].nil?
             @repository[attribute] = []
 
-            # TODO new attribute - add to board
+            # new attribute - add to board
+            # first a dummy value must be found to replace the new value
+            attribute_to_replace = @board.keys.find { |element| !element.defined_value }
+            while attribute_to_replace.nil? # all values at the top level are defined so search through the sub-maps
+                for key in @board.keys
+                    attribute_to_replace = @board[key].keys.find { |element| !element.defined_value }
+                end
+            end
+
+            # now copy the current value for the attribute's key and remove the dummy value from the map
+            newly_defined_attribute = Attribute.new(attribute)
+            if !@board[attribute_to_replace].nil?
+                @board[newly_defined_attribute] = @board[attribute_to_replace]
+                @board.delete(attribute_to_replace)
+            end
+
+            # replace the key in the sub-maps as well
+            for key in @board.keys
+                if !@board[key][attribute_to_replace].nil?
+                    @board[key][newly_defined_attribute] = @board[key][attribute_to_replace]
+                    @board[key].delete(attribute_to_replace)
+                end
+            end
         end
 
         if @repository[attribute].index(value).nil?
@@ -47,6 +69,8 @@ class State
 end
 
 class Attribute
+    attr_reader :name, :defined_value
+
     def initialize(name, defined_value = true)
         @name = name
         @defined_value = defined_value
