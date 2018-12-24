@@ -3,12 +3,12 @@ class Relationship
         @board_grid = Array.new(number_of_values) { Array.new(number_of_values) }
 
         # initialize an empty grid to represent the unknown state of a relationship
-        for row in @board_grid
-            row_value = Value.new(nil, false)
-            for cell in row
-                column_value = Value.new(nil, false)
+        for row in 0..(@board_grid.length - 1)
+            row_value = Value.new("row_" + row.to_s, false)
+            for column in 0..(@board_grid[row].length - 1)
+                column_value = Value.new("column_" + column.to_s, false)
                 
-                cell = Cell.new(row_value, column_value)
+                @board_grid[row][column] = Cell.new(row_value, column_value)
             end
         end
     end
