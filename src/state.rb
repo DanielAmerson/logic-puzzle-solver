@@ -46,17 +46,11 @@ class State
 
             # now copy the current value for the attribute's key and remove the dummy value from the map
             newly_defined_attribute = Attribute.new(attribute)
-            if !@board[attribute_to_replace].nil?
-                @board[newly_defined_attribute] = @board[attribute_to_replace]
-                @board.delete(attribute_to_replace)
-            end
+            replace_attribute(@board, attribute_to_replace, newly_defined_attribute)
 
             # replace the key in the sub-maps as well
             for key in @board.keys
-                if !@board[key][attribute_to_replace].nil?
-                    @board[key][newly_defined_attribute] = @board[key][attribute_to_replace]
-                    @board[key].delete(attribute_to_replace)
-                end
+                replace_attribute(@board[key], attribute_to_replace, newly_defined_attribute)
             end
         end
 
@@ -64,6 +58,15 @@ class State
             @repository[attribute].push(value)
 
             # TODO new attribute - add to relationship
+        end
+    end
+
+    private
+
+    def replace_attribute(board_element, attribute_to_replace, newly_defined_attribute)
+        if !board_element[attribute_to_replace].nil?
+            board_element[newly_defined_attribute] = board_element[attribute_to_replace]
+            board_element.delete(attribute_to_replace)
         end
     end
 end
